@@ -1,0 +1,28 @@
+{
+  "name": "praktikum_13",
+  "version": "0.0.1",
+  "description": "## О проекте Разработка серверного кода с помощью фреймворка Express.",
+  "main": "app.js",
+  "dependencies": {
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-import": "^2.20.2",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  },
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/batolser/praktikum_13.git"
+  },
+  "author": "Baturova Olga",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/batolser/praktikum_13/issues"
+  },
+  "homepage": "https://github.com/batolser/praktikum_13#readme"
+}
