@@ -4,10 +4,12 @@
   "description": "## О проекте Разработка серверного кода с помощью фреймворка Express.",
   "main": "app.js",
   "dependencies": {
-    "eslint-config-airbnb-base": "^14.1.0",
+    "body-parser": "^1.19.0",
     "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mongoose": "^5.9.10"
   },
   "devDependencies": {
     "nodemon": "^2.0.3"
