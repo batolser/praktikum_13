@@ -1,22 +1,44 @@
-/* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
 const Card = require('../models/card');
 
-module.exports.getCards = (req, res) => {
+module.exports.getCards = (req, res, next) => {
   Card.find({})
     .then((card) => res.send({ data: card }))
-    .catch(() => res.send(500).send({ message: 'Произошла ошибка' }));
+    .catch((err) => {
+      next(err);
+    });
 };
 
-module.exports.createCard = (req, res) => {
+module.exports.createCard = (req, res, next) => {
   const owner = req.user._id;
   const { name, link } = req.body;
   Card.create({ name, link, owner })
     .then((card) => res.send({ data: card }))
-    .catch(() => res.send(500).send({ message: 'Произошла ошибка' }));
+    .catch((err) => {
+      next(err);
+    });
 };
 
-module.exports.deleteCard = (req, res) => {
-  Card.findByIdAndRemove(req.params.id)
+module.exports.getCardMiddleware = (req, res, next) => { // eslint-disable-line
+  return Card.findById({
+    _id: req.params.cardId,
+  })
+    .then((card) => { // eslint-disable-line
+      if (!card) {
+        return next({ status: 404, message: 'Карточка не найдена' });
+      }
+
+      req.card = card;
+      next();
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+module.exports.deleteCard = (req, res, next) => {
+  Card.remove(req.params.cardId)
     .then((card) => res.send({ data: card }))
-    .catch(() => res.send(500).send({ message: 'Произошла ошибка' }));
+    .catch((err) => {
+      next(err);
+    });
 };

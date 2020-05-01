@@ -1,21 +1,34 @@
 const User = require('../models/user');
 
-module.exports.getUsers = (req, res) => {
+module.exports.getUsers = (req, res, next) => {
   User.find({})
     .then((user) => res.send({ data: user }))
-    .catch(() => res.status(500).send({ message: 'Произошла ошибка' }));
+    .catch((err) => {
+      next(err);
+    });
 };
 
-module.exports.getUserById = (req, res) => {
-  User.findById(req.params.id)
-    .then((user) => res.send({ data: user }))
-    .catch(() => res.status(500).send({ message: 'Произошла ошибка' }));
+module.exports.getUserById = (req, res, next) => {
+  User.findById(req.params.userId).orFail(() => res.send('Пользователь с таким  id не найден'))
+    .then((user) => { // eslint-disable-line
+      if (!user) {
+        return next({ status: 404, message: 'Пользователь с таким  id не найден' });
+      }
+
+      res.send({ data: user });
+      next();
+    })
+    .catch((err) => {
+      next(err);
+    });
 };
 
-module.exports.createUser = (req, res) => {
+module.exports.createUser = (req, res, next) => {
   const { name, about, avatar } = req.body;
 
   User.create({ name, about, avatar })
     .then((user) => res.send({ data: user }))
-    .catch(() => res.status(500).send({ message: 'Произошла ошибка' }));
+    .catch((err) => {
+      next(err);
+    });
 };
