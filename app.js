@@ -16,13 +16,13 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// app.use((req, res, next) => {
-//   req.user = {
-//     _id: '5ea322fcd13b8b131679ad40',
-//   };
+app.use((req, res, next) => {
+  req.user = {
+    _id: '5ea322fcd13b8b131679ad40',
+  };
 
-//   next();
-// });
+  next();
+});
 
 const cardsRouter = require('./routes/cards');
 const usersRouter = require('./routes/users');
@@ -31,13 +31,13 @@ const usersRouter = require('./routes/users');
 app.use('/', cardsRouter);
 app.use('/', usersRouter);
 
-// app.use('/', (req, res) => {
-//   res.status(404).json({ message: 'Запрашиваемый ресурс не найден' });
-// });
+app.use('/', (req, res) => {
+  res.status(404).json({ message: 'Запрашиваемый ресурс не найден' });
+});
 
 app.use('/', (err, req, res, next) => { // eslint-disable-line
   const status = err.status || 500;
-  let { message } = err.message;
+  let { message } = err;
   if (err.name === 'ValidationError') {
     return res.status(400).send(`Ошибка валидации:\n${err.message}`);
   }

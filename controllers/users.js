@@ -9,7 +9,7 @@ module.exports.getUsers = (req, res, next) => {
 };
 
 module.exports.getUserById = (req, res, next) => {
-  User.findById(req.params.userId).orFail(() => res.send('Пользователь с таким  id не найден'))
+  User.findById(req.params.userId).orFail(() => res.status(404).send('Пользователь с таким  id не найден'))
     .then((user) => { // eslint-disable-line
       if (!user) {
         return next({ status: 404, message: 'Пользователь с таким  id не найден' });
