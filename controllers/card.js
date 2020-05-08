@@ -27,7 +27,7 @@ module.exports.getCardMiddleware = (req, res, next) => { // eslint-disable-line
         return next({ status: 404, message: 'Карточка не найдена' });
       }
 
-      req.card = card;
+      // req.card = card;
       next();
     })
     .catch((err) => {
@@ -36,7 +36,7 @@ module.exports.getCardMiddleware = (req, res, next) => { // eslint-disable-line
 };
 
 module.exports.deleteCard = (req, res, next) => {
-  Card.remove(req.params.cardId)
+  Card.findByIdAndRemove(req.params.cardId)
     .then((card) => res.send({ data: card }))
     .catch((err) => {
       next(err);

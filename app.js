@@ -32,14 +32,15 @@ app.use('/', cardsRouter);
 app.use('/', usersRouter);
 
 app.use('/', (req, res) => {
-  res.status(404).json({ message: 'Запрашиваемый ресурс не найден' });
+  res.status(404).json({ err: 'Запрашиваемый ресурс не найден' });
 });
 
 app.use('/', (err, req, res, next) => { // eslint-disable-line
   const status = err.status || 500;
   let { message } = err;
   if (err.name === 'ValidationError') {
-    return res.status(400).send(`Ошибка валидации:\n${err.message}`);
+    //  res.status(400).send(`Ошибка валидации:\n${err.message}`);
+    return res.status(400).json({ err: `Ошибка валидации:\n${err.message}` });
   }
 
   if (status === 500) {
@@ -47,8 +48,8 @@ app.use('/', (err, req, res, next) => { // eslint-disable-line
     message = 'Приозошла ошибка';
   }
 
-  res.status(status).send(message);
-
+  // res.status(status).send(message); изменяю это на строку ниже
+  res.status(status).json({ err: message });
   next();
 });
 
